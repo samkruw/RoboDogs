@@ -900,7 +900,7 @@
 <!-- FIREBASE & APP LOGIC -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, setDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
   import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
   // --- GLOBAL STATE ---
@@ -1030,12 +1030,8 @@
         window.appData.settings = docSnap.data();
         loadSettingsUI();
       } else {
-        // Create default settings if not exist
-        addDoc(collection(window.db, "settings"), { 
-            companyName: 'RoboRepair GmbH', hourlyRate: 65, tax: 19, travel: 0, address: '', phone: '', email: '' 
-        }).then(() => {
-             // Reload to get the ID
-             setTimeout(() => location.reload(), 1000);
+        setDoc(doc(window.db, "settings", "config"), {
+          companyName: 'RoboRepair GmbH', hourlyRate: 65, tax: 19, travel: 0, address: '', phone: '', email: ''
         });
       }
     });
