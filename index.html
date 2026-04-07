@@ -347,8 +347,10 @@
     display: none; position: fixed; inset: 0; z-index: 9999;
     background: linear-gradient(135deg, #f0f2f8 0%, #e8eaf6 100%);
     align-items: center; justify-content: center;
+    transition: opacity 0.3s ease;
   }
   #loginScreen.active { display: flex; }
+  #appShell { transition: opacity 0.3s ease; }
   .login-box {
     background: white; border-radius: var(--radius); padding: 40px;
     width: 100%; max-width: 400px; box-shadow: var(--shadow-lg);
@@ -928,15 +930,17 @@
       window.db = getFirestore(app);
       window.auth = getAuth(app);
 
+      let subscribed = false;
       onAuthStateChanged(window.auth, (user) => {
         if (user) {
           document.getElementById('loginScreen').classList.remove('active');
           document.getElementById('appShell').style.display = 'block';
-          window.initIcons && window.initIcons();
-          subscribeToData();
+          setTimeout(() => { window.initIcons && window.initIcons(); }, 100);
+          if (!subscribed) { subscribed = true; subscribeToData(); }
         } else {
           document.getElementById('loginScreen').classList.add('active');
           document.getElementById('appShell').style.display = 'none';
+          subscribed = false;
         }
       });
     } catch (e) {
@@ -949,14 +953,18 @@
     const email = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
     const errorEl = document.getElementById('loginError');
+    const btn = document.querySelector('#loginScreen .btn-primary');
     errorEl.classList.remove('active');
     if (!email || !password) { errorEl.textContent = 'Bitte E-Mail und Passwort eingeben.'; errorEl.classList.add('active'); return; }
+    btn.textContent = 'Wird angemeldet...'; btn.disabled = true;
     try {
       await signInWithEmailAndPassword(window.auth, email, password);
     } catch (e) {
       const msgs = { 'auth/user-not-found': 'Benutzer nicht gefunden.', 'auth/wrong-password': 'Falsches Passwort.', 'auth/invalid-email': 'Ungültige E-Mail.', 'auth/invalid-credential': 'E-Mail oder Passwort falsch.' };
       errorEl.textContent = msgs[e.code] || 'Anmeldung fehlgeschlagen: ' + e.message;
       errorEl.classList.add('active');
+      btn.innerHTML = '<i data-lucide="log-in"></i> Einloggen'; btn.disabled = false;
+      window.initIcons();
     }
   };
 
