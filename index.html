@@ -342,12 +342,54 @@
   tbody tr.highlighted { background: var(--accent-light); }
   @media print { .sidebar, .header, .btn { display: none !important; } .main { margin-left: 0 !important; } body { background: white; color: black; } }
 
-  /* Firebase Setup Modal */
-  .firebase-setup-modal .modal { max-width: 500px; }
-  .firebase-setup-modal .code-block { background: var(--bg-input); padding: 10px; border-radius: var(--radius-xs); font-family: monospace; font-size: 11px; color: var(--text-secondary); margin: 10px 0; word-break: break-all; }
+  /* Login Screen */
+  #loginScreen {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(135deg, #f0f2f8 0%, #e8eaf6 100%);
+    align-items: center; justify-content: center;
+  }
+  #loginScreen.active { display: flex; }
+  .login-box {
+    background: white; border-radius: var(--radius); padding: 40px;
+    width: 100%; max-width: 400px; box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-light);
+  }
+  .login-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; }
+  .login-logo .logo { width: 44px; height: 44px; background: linear-gradient(135deg, #8b5cf6, #6366f1); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .login-logo .logo i { width: 24px; height: 24px; color: white; }
+  .login-logo h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+  .login-logo small { display: block; font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+  .login-box h2 { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .login-box p { font-size: 13px; color: var(--text-secondary); margin-bottom: 28px; }
+  .login-error { background: var(--red-light); color: var(--red); border-radius: var(--radius-xs); padding: 10px 14px; font-size: 13px; font-weight: 500; margin-bottom: 16px; display: none; }
+  .login-error.active { display: block; }
 </style>
 </head>
 <body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="active">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo"><i data-lucide="bot"></i></div>
+      <div><h1>RoboRepair</h1><small>CRM & Reparatur</small></div>
+    </div>
+    <h2>Anmelden</h2>
+    <p>Bitte mit deinem Konto einloggen</p>
+    <div class="login-error" id="loginError"></div>
+    <div class="form-group" style="margin-bottom:16px;">
+      <label>E-Mail</label>
+      <input type="email" id="loginEmail" placeholder="name@example.com" style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px 14px;color:var(--text-primary);font-size:13.5px;font-family:'Inter',sans-serif;outline:none;width:100%;">
+    </div>
+    <div class="form-group" style="margin-bottom:24px;">
+      <label>Passwort</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" style="background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px 14px;color:var(--text-primary);font-size:13.5px;font-family:'Inter',sans-serif;outline:none;width:100%;" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="doLogin()">
+      <i data-lucide="log-in"></i> Einloggen
+    </button>
+  </div>
+</div>
 
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
@@ -407,8 +449,8 @@
       <div class="nav-item" data-page="settings" onclick="navigateTo('settings')">
         <span class="icon"><i data-lucide="settings"></i></span> Einstellungen
       </div>
-      <div class="nav-item" onclick="clearFirebaseConfig()" style="color:var(--red);">
-        <span class="icon"><i data-lucide="log-out"></i></span> Firebase Reset
+      <div class="nav-item" onclick="doLogout()" style="color:var(--red);">
+        <span class="icon"><i data-lucide="log-out"></i></span> Abmelden
       </div>
     </div>
   </nav>
@@ -850,32 +892,7 @@
 </div>
 
 <!-- Firebase Setup Modal -->
-<div class="modal-overlay" id="firebaseSetupModal">
-  <div class="modal firebase-setup-modal">
-    <div class="modal-header"><h3>🔥 Firebase Einrichtung</h3></div>
-    <div class="modal-body">
-      <p style="font-size:13px; color:var(--text-secondary); margin-bottom:15px;">
-        Bitte gib deine Firebase Konfiguration ein. Diese wird im LocalStorage gespeichert.
-        <br><br>
-        <strong>Wichtig:</strong> Stelle in der Firebase Console sicher, dass Firestore im "Test Mode" ist oder Security Rules für Lese/Schreibzugriff konfiguriert sind.
-      </p>
-      <div class="form-group full-width">
-        <label>Firebase Config (JSON)</label>
-        <textarea id="firebaseConfigInput" rows="10" placeholder='{
-  "apiKey": "AIza...",
-  "authDomain": "...",
-  "projectId": "...",
-  "storageBucket": "...",
-  "messagingSenderId": "...",
-  "appId": "..."
-}'></textarea>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-accent" onclick="saveFirebaseConfig()"><i data-lucide="save"></i> Speichern & Starten</button>
-    </div>
-  </div>
-</div>
+
 
 <div class="toast-container" id="toastContainer"></div>
 
@@ -883,7 +900,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, getDocs, writeBatch } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
   // --- GLOBAL STATE ---
   window.appData = { customers: [], repairs: [], inventory: [], chinaOrders: [], settings: {} };
@@ -909,24 +926,39 @@
       window.db = getFirestore(app);
       window.auth = getAuth(app);
 
-      // Anonymous Auth
-      signInAnonymously(window.auth).catch((error) => {
-        console.error("Auth Error", error);
-        showToast('Firebase Auth Fehler', 'error');
-      });
-
       onAuthStateChanged(window.auth, (user) => {
         if (user) {
-          console.log('Logged in as', user.uid);
-          document.getElementById('firebaseSetupModal').classList.remove('active');
+          document.getElementById('loginScreen').classList.remove('active');
           subscribeToData();
+        } else {
+          document.getElementById('loginScreen').classList.add('active');
         }
       });
     } catch (e) {
       console.error('Firebase Init Error', e);
-      showToast('Firebase Config ungültig', 'error');
+      showToast('Firebase Fehler', 'error');
     }
   }
+
+  window.doLogin = async () => {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errorEl = document.getElementById('loginError');
+    errorEl.classList.remove('active');
+    if (!email || !password) { errorEl.textContent = 'Bitte E-Mail und Passwort eingeben.'; errorEl.classList.add('active'); return; }
+    try {
+      await signInWithEmailAndPassword(window.auth, email, password);
+    } catch (e) {
+      const msgs = { 'auth/user-not-found': 'Benutzer nicht gefunden.', 'auth/wrong-password': 'Falsches Passwort.', 'auth/invalid-email': 'Ungültige E-Mail.', 'auth/invalid-credential': 'E-Mail oder Passwort falsch.' };
+      errorEl.textContent = msgs[e.code] || 'Anmeldung fehlgeschlagen: ' + e.message;
+      errorEl.classList.add('active');
+    }
+  };
+
+  window.doLogout = async () => {
+    if (!confirm('Wirklich abmelden?')) return;
+    await signOut(window.auth);
+  };
 
   // --- DATA SYNC (Realtime) ---
   function subscribeToData() {
@@ -1586,15 +1618,7 @@
   };
 
   // --- FIREBASE CONFIG UI ---
-  window.saveFirebaseConfig = () => {
-    // Firebase Config ist direkt in der App hardcodiert
-    document.getElementById('firebaseSetupModal').classList.remove('active');
-    showToast('Firebase Config ist hardcodiert', 'info');
-  };
 
-  window.clearFirebaseConfig = () => {
-    showToast('Firebase Config ist direkt in der App hinterlegt', 'info');
-  };
 
   // --- AI WORKFLOWS (Same as before, using window.callGroq) ---
   window.selectDiagnosisTemplate = (type) => {
