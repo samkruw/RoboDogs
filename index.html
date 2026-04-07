@@ -896,14 +896,15 @@
 
   // --- FIREBASE INIT ---
   function initFirebase() {
-    const configStr = localStorage.getItem('firebaseConfig');
-    if (!configStr) {
-      document.getElementById('firebaseSetupModal').classList.add('active');
-      return;
-    }
-
     try {
-      const config = JSON.parse(configStr);
+      const config = {
+        apiKey: "AIzaSyC26-7zqfY1bSmF-wp0xbFezbg-G0sh1So",
+        authDomain: "robodogs-4a087.firebaseapp.com",
+        projectId: "robodogs-4a087",
+        storageBucket: "robodogs-4a087.firebasestorage.app",
+        messagingSenderId: "670623108853",
+        appId: "1:670623108853:web:0a31a4ca9a499973c03fbc"
+      };
       const app = initializeApp(config);
       window.db = getFirestore(app);
       window.auth = getAuth(app);
@@ -1586,22 +1587,13 @@
 
   // --- FIREBASE CONFIG UI ---
   window.saveFirebaseConfig = () => {
-    const val = document.getElementById('firebaseConfigInput').value.trim();
-    try {
-        JSON.parse(val); // Validate JSON
-        localStorage.setItem('firebaseConfig', val);
-        document.getElementById('firebaseSetupModal').classList.remove('active');
-        initFirebase();
-    } catch(e) {
-        showToast('Ungültiges JSON Format', 'error');
-    }
+    // Firebase Config ist direkt in der App hardcodiert
+    document.getElementById('firebaseSetupModal').classList.remove('active');
+    showToast('Firebase Config ist hardcodiert', 'info');
   };
 
   window.clearFirebaseConfig = () => {
-      if(confirm('Firebase Config löschen? App muss neu geladen werden.')) {
-          localStorage.removeItem('firebaseConfig');
-          location.reload();
-      }
+    showToast('Firebase Config ist direkt in der App hinterlegt', 'info');
   };
 
   // --- AI WORKFLOWS (Same as before, using window.callGroq) ---
