@@ -344,13 +344,10 @@
 
   /* Login Screen */
   #loginScreen {
-    display: none; position: fixed; inset: 0; z-index: 9999;
+    position: fixed; inset: 0; z-index: 9999;
     background: linear-gradient(135deg, #f0f2f8 0%, #e8eaf6 100%);
-    align-items: center; justify-content: center;
-    transition: opacity 0.3s ease;
+    display: flex; align-items: center; justify-content: center;
   }
-  #loginScreen.active { display: flex; }
-  #appShell { transition: opacity 0.3s ease; }
   .login-box {
     background: white; border-radius: var(--radius); padding: 40px;
     width: 100%; max-width: 400px; box-shadow: var(--shadow-lg);
@@ -370,7 +367,7 @@
 <body>
 
 <!-- LOGIN SCREEN -->
-<div id="loginScreen" class="active">
+<div id="loginScreen">
   <div class="login-box">
     <div class="login-logo">
       <div class="logo"><i data-lucide="bot"></i></div>
@@ -933,12 +930,14 @@
       let subscribed = false;
       onAuthStateChanged(window.auth, (user) => {
         if (user) {
-          document.getElementById('loginScreen').classList.remove('active');
+          if (!subscribed) { 
+            subscribed = true; 
+            subscribeToData();
+          }
+          document.getElementById('loginScreen').style.display = 'none';
           document.getElementById('appShell').style.display = 'block';
-          setTimeout(() => { window.initIcons && window.initIcons(); }, 100);
-          if (!subscribed) { subscribed = true; subscribeToData(); }
         } else {
-          document.getElementById('loginScreen').classList.add('active');
+          document.getElementById('loginScreen').style.display = 'flex';
           document.getElementById('appShell').style.display = 'none';
           subscribed = false;
         }
@@ -974,29 +973,35 @@
   };
 
   // --- DATA SYNC (Realtime) ---
+  let _updateTimer = null;
+  function debouncedUpdate() {
+    clearTimeout(_updateTimer);
+    _updateTimer = setTimeout(() => { window.updateAllViews(); }, 100);
+  }
+
   function subscribeToData() {
     // Customers
     onSnapshot(collection(window.db, "customers"), (snapshot) => {
       window.appData.customers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      updateAllViews();
+      debouncedUpdate();
     });
 
     // Repairs
     onSnapshot(query(collection(window.db, "repairs"), orderBy("createdAt", "desc")), (snapshot) => {
       window.appData.repairs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      updateAllViews();
+      debouncedUpdate();
     });
 
     // Inventory
     onSnapshot(collection(window.db, "inventory"), (snapshot) => {
       window.appData.inventory = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      updateAllViews();
+      debouncedUpdate();
     });
 
     // China Orders
     onSnapshot(query(collection(window.db, "chinaOrders"), orderBy("createdAt", "desc")), (snapshot) => {
       window.appData.chinaOrders = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      updateAllViews();
+      debouncedUpdate();
     });
 
     // Settings (Single Doc)
