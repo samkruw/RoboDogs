@@ -697,7 +697,7 @@
             <div class="form-group"><label>Fehlercode</label><input type="text" id="diagErrorCode" placeholder="z.B. Error 14"></div>
             <div class="form-group"><label>Gerätealter</label><select id="diagAge"><option value="unbekannt">Unbekannt</option><option value="< 6 Monate">< 6 Monate</option><option value="6-12 Monate">6-12 Monate</option><option value="1-2 Jahre">1-2 Jahre</option><option value="2-3 Jahre">2-3 Jahre</option><option value="> 3 Jahre">> 3 Jahre</option></select></div>
           </div>
-          <div class="ai-output" id="diagnosisOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Diagnose</div><div class="ai-output-content" id="diagnosisContent"></div></div>
+          <div class="ai-output" id="diagnosisOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Diagnose</div><div class="ai-output-content" id="diagnosisContent"></div><div style="display:flex;gap:8px;margin-top:12px;"><button class="btn btn-secondary btn-sm" onclick="copyToClipboard('diagnosisContent')"><i data-lucide="copy"></i> Kopieren</button><button class="btn btn-secondary btn-sm" onclick="printAI('diagnosisContent','KI-Fehlerdiagnose')"><i data-lucide="printer"></i> Drucken / PDF</button></div></div>
         </div>
       </div>
     </div>
@@ -714,7 +714,7 @@
                     <div class="form-group"><label>Max. Budget (€)</label><input type="number" id="partsBudget" placeholder="z.B. 25"></div>
                     <div class="form-group"><label>Plattform</label><select id="partsPlatform"><option value="alle">Alle</option><option value="aliexpress">AliExpress</option><option value="alibaba">Alibaba</option><option value="banggood">Banggood</option><option value="dhgate">DHgate</option><option value="temu">Temu</option></select></div>
                 </div>
-                <div class="ai-output" id="partsSearchOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Suchergebnis</div><div class="ai-output-content" id="partsSearchContent"></div><div class="platform-links" id="platformLinks"></div></div>
+                <div class="ai-output" id="partsSearchOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Suchergebnis</div><div class="ai-output-content" id="partsSearchContent"></div><div class="platform-links" id="platformLinks"></div><div style="display:flex;gap:8px;margin-top:12px;"><button class="btn btn-secondary btn-sm" onclick="copyToClipboard('partsSearchContent')"><i data-lucide="copy"></i> Kopieren</button><button class="btn btn-secondary btn-sm" onclick="printAI('partsSearchContent','KI-Teilesuche')"><i data-lucide="printer"></i> Drucken / PDF</button></div></div>
             </div>
         </div>
     </div>
@@ -730,7 +730,7 @@
                     <div class="form-group"><label>Stundensatz (€)</label><input type="number" id="quoteHourlyRate" value="65"></div>
                     <div class="form-group"><label>Arbeitszeit (h)</label><input type="number" id="quoteHours" value="1" step="0.5"></div>
                 </div>
-                <div class="ai-output" id="quoteOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Kostenvoranschlag</div><div class="ai-output-content" id="quoteContent"></div></div>
+                <div class="ai-output" id="quoteOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Kostenvoranschlag</div><div class="ai-output-content" id="quoteContent"></div><div style="display:flex;gap:8px;margin-top:12px;"><button class="btn btn-secondary btn-sm" onclick="copyToClipboard('quoteContent')"><i data-lucide="copy"></i> Kopieren</button><button class="btn btn-secondary btn-sm" onclick="printAI('quoteContent','Kostenvoranschlag')"><i data-lucide="printer"></i> Drucken / PDF</button></div></div>
             </div>
         </div>
     </div>
@@ -746,7 +746,7 @@
                     <div class="form-group"><label>Tonfall</label><select id="responseTone"><option value="professionell">Professionell</option><option value="freundlich">Freundlich</option><option value="formell">Formell</option><option value="kurz">Kurz</option></select></div>
                     <div class="form-group"><label>Sprache</label><select id="responseLanguage"><option value="Deutsch">Deutsch</option><option value="Englisch">Englisch</option></select></div>
                 </div>
-                <div class="ai-output" id="responseOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Antwort</div><div class="ai-output-content" id="responseContent"></div><button class="btn btn-secondary btn-sm" style="margin-top:12px;" onclick="copyToClipboard('responseContent')"><i data-lucide="copy"></i> Kopieren</button></div>
+                <div class="ai-output" id="responseOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Antwort</div><div class="ai-output-content" id="responseContent"></div><div style="display:flex;gap:8px;margin-top:12px;"><button class="btn btn-secondary btn-sm" onclick="copyToClipboard('responseContent')"><i data-lucide="copy"></i> Kopieren</button><button class="btn btn-secondary btn-sm" onclick="printAI('responseContent','KI-Kundenantwort')"><i data-lucide="printer"></i> Drucken / PDF</button></div></div>
             </div>
         </div>
     </div>
@@ -762,7 +762,7 @@
                     <div class="form-group"><label>Tests</label><textarea id="reportTests" placeholder="Testergebnisse..."></textarea></div>
                     <div class="form-group full-width"><label>Empfehlungen</label><textarea id="reportRecommendations" placeholder="Tipps für Kunden..."></textarea></div>
                 </div>
-                <div class="ai-output" id="reportOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Bericht</div><div class="ai-output-content" id="reportContent"></div><button class="btn btn-secondary btn-sm" style="margin-top:12px;" onclick="copyToClipboard('reportContent')"><i data-lucide="copy"></i> Kopieren</button></div>
+                <div class="ai-output" id="reportOutput" style="display:none;"><div class="ai-label"><span class="pulse"></span> Bericht</div><div class="ai-output-content" id="reportContent"></div><div style="display:flex;gap:8px;margin-top:12px;"><button class="btn btn-secondary btn-sm" onclick="copyToClipboard('reportContent')"><i data-lucide="copy"></i> Kopieren</button><button class="btn btn-secondary btn-sm" onclick="printAI('reportContent','KI-Reparaturbericht')"><i data-lucide="printer"></i> Drucken / PDF</button></div></div>
             </div>
         </div>
     </div>
@@ -1551,6 +1551,38 @@
 
   window.copyToClipboard = (id) => { navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>showToast('Kopiert!','success')); };
 
+  window.printAI = (contentId, title) => {
+    const text = document.getElementById(contentId).textContent;
+    if (!text || text.trim() === '') { showToast('Kein Inhalt zum Drucken!', 'error'); return; }
+    const company = window.appData.settings?.companyName || 'RoboRepair';
+    const date = new Date().toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric' });
+    const lines = text.split('\n').map(line => {
+      if (line.startsWith('**') && line.endsWith('**')) return `<h3>${line.replace(/\*\*/g,'')}</h3>`;
+      if (line.startsWith('**')) return `<strong>${line.replace(/\*\*/g,'')}</strong>`;
+      if (line.trim() === '') return '<br>';
+      return `<p>${line}</p>`;
+    }).join('');
+    const win = window.open('', '_blank');
+    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title><style>
+      body { font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #2d3047; font-size: 14px; line-height: 1.7; }
+      .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #8b5cf6; padding-bottom: 16px; margin-bottom: 28px; }
+      .company { font-size: 20px; font-weight: 700; color: #8b5cf6; }
+      .meta { text-align: right; font-size: 12px; color: #8b8fa3; }
+      h2 { font-size: 18px; color: #2d3047; margin-bottom: 20px; }
+      h3 { font-size: 14px; font-weight: 700; color: #8b5cf6; margin: 18px 0 6px; border-left: 3px solid #8b5cf6; padding-left: 10px; }
+      p { margin: 4px 0; }
+      strong { font-weight: 600; }
+      .footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid #e4e7f1; font-size: 11px; color: #8b8fa3; text-align: center; }
+      @media print { body { padding: 20px; } button { display: none; } }
+    </style></head><body>
+      <div class="header"><div class="company">🤖 ${company}</div><div class="meta"><div>${title}</div><div>${date}</div></div></div>
+      <div>${lines}</div>
+      <div class="footer">Erstellt von RoboRepair CRM · ${date}</div>
+      <br><button onclick="window.print()" style="padding:10px 24px;background:#8b5cf6;color:white;border:none;border-radius:8px;font-size:14px;cursor:pointer;font-weight:600;">🖨️ Drucken / Als PDF speichern</button>
+    </body></html>`);
+    win.document.close();
+  };
+
   window.exportData = (type) => {
     let data,fn;
     if(type==='customers'){data=window.appData.customers;fn='kunden.json';}
@@ -1695,9 +1727,90 @@
   };
   
   // Placeholder for other AI functions to keep code concise (Logic identical to previous version)
-  window.runAIQuote = async () => { showToast('Funktioniert wie vorher, nur DB im Backend', 'info'); };
-  window.runAIResponse = async () => { showToast('Funktioniert wie vorher, nur DB im Backend', 'info'); };
-  window.runAIReport = async () => { showToast('Funktioniert wie vorher, nur DB im Backend', 'info'); };
+  window.runAIQuote = async () => {
+    const customer = document.getElementById('quoteCustomer').value;
+    const device = document.getElementById('quoteDevice').value.trim();
+    const findings = document.getElementById('quoteFindings').value.trim();
+    const hourlyRate = document.getElementById('quoteHourlyRate').value || 65;
+    const hours = document.getElementById('quoteHours').value || 1;
+    if (!findings) { showToast('Bitte Befund eingeben!', 'error'); return; }
+    const outputEl = document.getElementById('quoteOutput');
+    const contentEl = document.getElementById('quoteContent');
+    outputEl.style.display = 'block';
+    contentEl.className = 'ai-output-content loading';
+    contentEl.textContent = 'KI erstellt Kostenvoranschlag...';
+    const customerName = customer ? (window.appData.customers.find(c => c.id === customer) || {firstName:'', lastName:''}) : {firstName:'', lastName:''};
+    const cn = customerName.firstName ? `${customerName.firstName} ${customerName.lastName}` : 'Kunde';
+    try {
+      const result = await window.callGroq(
+        `Du bist ein professioneller Reparaturtechniker für Roboterstaubsauger in Deutschland. Erstelle einen detaillierten Kostenvoranschlag auf Deutsch. Format mit Abschnitten: **📋 Kostenvoranschlag**, **🔧 Arbeitsleistung**, **📦 Ersatzteile (geschätzt)**, **💰 Kostenübersicht** (Netto, MwSt 19%, Brutto), **⏱️ Voraussichtliche Dauer**, **ℹ️ Hinweise**.`,
+        `Kunde: ${cn}\nGerät: ${device || 'nicht angegeben'}\nBefund/Diagnose: ${findings}\nStundensatz: ${hourlyRate}€\nGeschätzte Arbeitszeit: ${hours}h`
+      );
+      contentEl.className = 'ai-output-content';
+      contentEl.textContent = result;
+      showToast('Kostenvoranschlag erstellt!', 'success');
+    } catch(e) { contentEl.className = 'ai-output-content'; contentEl.textContent = 'Fehler: ' + e.message; }
+  };
+
+  window.runAIResponse = async () => {
+    const situation = document.getElementById('responseSituation').value;
+    const customerId = document.getElementById('responseCustomer').value;
+    const details = document.getElementById('responseDetails').value.trim();
+    const tone = document.getElementById('responseTone').value;
+    const language = document.getElementById('responseLanguage').value;
+    const outputEl = document.getElementById('responseOutput');
+    const contentEl = document.getElementById('responseContent');
+    outputEl.style.display = 'block';
+    contentEl.className = 'ai-output-content loading';
+    contentEl.textContent = 'KI schreibt Antwort...';
+    const customer = customerId ? window.appData.customers.find(c => c.id === customerId) : null;
+    const cn = customer ? `${customer.firstName} ${customer.lastName}` : 'Kunde';
+    const situationMap = {
+      'eingang_bestätigung': 'Auftragseingangsbestätigung – Gerät wurde erhalten und wird geprüft',
+      'diagnose_erledigt': 'Diagnose abgeschlossen – Ergebnis mitteilen und auf Freigabe warten',
+      'kosten_freigabe': 'Kostenvoranschlag – Freigabe vom Kunden einholen',
+      'reparatur_fertig': 'Reparatur abgeschlossen – Gerät kann abgeholt werden',
+      'ersatzteil_wartend': 'Warten auf Ersatzteil aus China – Verzögerung mitteilen',
+      'nicht_reparierbar': 'Gerät nicht wirtschaftlich reparierbar – Kunden informieren',
+      'kundennachfrage': 'Allgemeine Kundenanfrage beantworten'
+    };
+    try {
+      const result = await window.callGroq(
+        `Du bist ein professioneller Kundenservice-Mitarbeiter eines Roboterstaubsauger-Reparaturservice. Schreibe eine ${tone}e Kundenantwort auf ${language}. Nur den E-Mail/Nachrichtentext ausgeben, keine Erklärungen.`,
+        `Situation: ${situationMap[situation]}\nKunde: ${cn}\nZusätzliche Details: ${details || 'keine'}\nTonfall: ${tone}`
+      );
+      contentEl.className = 'ai-output-content';
+      contentEl.textContent = result;
+      showToast('Antwort generiert!', 'success');
+    } catch(e) { contentEl.className = 'ai-output-content'; contentEl.textContent = 'Fehler: ' + e.message; }
+  };
+
+  window.runAIReport = async () => {
+    const repairId = document.getElementById('reportRepair').value;
+    const workDone = document.getElementById('reportWorkDone').value.trim();
+    const parts = document.getElementById('reportParts').value.trim();
+    const tests = document.getElementById('reportTests').value.trim();
+    const recommendations = document.getElementById('reportRecommendations').value.trim();
+    if (!repairId) { showToast('Bitte Auftrag wählen!', 'error'); return; }
+    if (!workDone) { showToast('Bitte durchgeführte Arbeiten eingeben!', 'error'); return; }
+    const outputEl = document.getElementById('reportOutput');
+    const contentEl = document.getElementById('reportContent');
+    outputEl.style.display = 'block';
+    contentEl.className = 'ai-output-content loading';
+    contentEl.textContent = 'KI erstellt Reparaturbericht...';
+    const repair = window.appData.repairs.find(r => r.id === repairId);
+    const customer = repair ? window.appData.customers.find(c => c.id === repair.customerId) : null;
+    const cn = customer ? `${customer.firstName} ${customer.lastName}` : 'unbekannt';
+    try {
+      const result = await window.callGroq(
+        `Du bist ein erfahrener Reparaturtechniker für Roboterstaubsauger. Erstelle einen professionellen Reparaturbericht auf Deutsch. Format: **📋 Reparaturbericht**, **👤 Kundendaten**, **🤖 Geräteinformationen**, **🔍 Fehlerdiagnose**, **🔧 Durchgeführte Arbeiten**, **📦 Verwendete Ersatzteile**, **✅ Abschlusstests**, **💡 Empfehlungen**, **📅 Abschluss**.`,
+        `Auftrag-Nr: RR-${repair ? repair.id.substr(0,4) : '????'}\nKunde: ${cn}\nGerät: ${repair ? repair.brand + ' ' + repair.model : 'unbekannt'}\nFehler: ${repair ? repair.description : ''}\nDurchgeführte Arbeiten: ${workDone}\nVerwendete Teile: ${parts || 'keine'}\nTestresultate: ${tests || 'keine'}\nEmpfehlungen: ${recommendations || 'keine'}`
+      );
+      contentEl.className = 'ai-output-content';
+      contentEl.textContent = result;
+      showToast('Bericht erstellt!', 'success');
+    } catch(e) { contentEl.className = 'ai-output-content'; contentEl.textContent = 'Fehler: ' + e.message; }
+  };
 
   // --- INIT ---
   document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('active');});});
